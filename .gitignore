@@ -1,0 +1,12 @@
+# Unity package/temp
+Library/
+Temp/
+Obj/
+*.csproj
+*.unityproj
+*.sln
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd

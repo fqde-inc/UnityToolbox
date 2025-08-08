@@ -4,6 +4,8 @@ using UnityEngine;
 using Fqde.SettingsSystem.Core;
 using Fqde.SettingsSystem.UnityAdapter;
 
+using GraphicsSettings = Fqde.SettingsSystem.Core.GraphicsSettings;
+
 public class SettingsWindow : EditorWindow
 {
     private SettingsManager _manager;
@@ -15,7 +17,7 @@ public class SettingsWindow : EditorWindow
     void OnEnable()
     {
         _manager = new SettingsManager(new PlayerPrefsStorage(), new JsonUtilitySerializer());
-        _settings = _manager.LoadSettings<GraphicsSettings>("graphics", GraphicsSettings.Default);
+        _settings = _manager.LoadSettings("graphics", GraphicsSettings.Default);
     }
 
     void OnGUI()
@@ -32,7 +34,7 @@ public class SettingsWindow : EditorWindow
         {
             _manager.SaveSettings("graphics", _settings);
             if (Application.isPlaying)
-                UnityGraphicsApplier.Apply(_settings);
+                GraphicsSettingsHandler.Apply(_settings);
         }
     }
 }
