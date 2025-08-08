@@ -1,0 +1,11 @@
+{
+  "name": "dev.fqde.settings-system",
+  "displayName": "Settings System",
+  "version": "0.1.0",
+  "unity": "6.1.0",
+  "description": "Reusable settings manager for graphics (resolution, quality, etc.)",
+  "keywords": ["settings","graphics","config"],
+  "author": {
+    "name": "Fqde"
+  }
+}
