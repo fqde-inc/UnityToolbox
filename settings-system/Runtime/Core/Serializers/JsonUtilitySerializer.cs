@@ -1,7 +1,6 @@
 using UnityEngine;
-using Fqde.SettingsSystem.Core;
 
-namespace Fqde.SettingsSystem.UnityAdapter
+namespace Fqde.SettingsSystem.Core
 {
     public class JsonUtilitySerializer : ISerializer
     {

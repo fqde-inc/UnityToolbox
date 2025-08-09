@@ -7,28 +7,44 @@ namespace Fqde.SettingsSystem.Core
         private readonly ISettingsStorage _storage;
         private readonly ISerializer _serializer;
 
-        public event Action<string> OnSettingChanged; // key
-
         public SettingsManager(ISettingsStorage storage, ISerializer serializer)
         {
-            _storage = storage ?? throw new ArgumentNullException(nameof(storage));
-            _serializer = serializer ?? throw new ArgumentNullException(nameof(serializer));
+            _storage = storage;
+            _serializer = serializer;
         }
 
-        public T LoadSettings<T>(string key, Func<T> defaultFactory)
+        private static SettingsManager _manager;
+        private static ISettingsStorage _storageStatic;
+        private static ISerializer _serializerStatic;
+
+        public static void Initialize( ISettingsStorage storage = null, ISerializer serializer = null)
         {
-            var json = _storage.Load(key, null);
+            _storageStatic = storage ?? new PlayerPrefsStorage();
+            _serializerStatic = serializer ?? new JsonUtilitySerializer();
+            _manager = new SettingsManager(_storageStatic, _serializerStatic);
+        }
+
+        private static void EnsureInit()
+        {
+            if (_manager == null)
+                Initialize();
+        }
+
+        public static T LoadSettings<T>(string key, Func<T> defaultFactory) where T : class
+        {
+            EnsureInit();
+            var json = _storageStatic.Load(key, null);
             if (string.IsNullOrEmpty(json))
                 return defaultFactory();
 
-            return _serializer.Deserialize<T>(json);
+            return _serializerStatic.Deserialize<T>(json);
         }
 
-        public void SaveSettings<T>(string key, T settings)
+        public static void SaveSettings<T>(string key, T settings) where T : class
         {
-            var json = _serializer.Serialize(settings);
-            _storage.Save(key, json);
-            OnSettingChanged?.Invoke(key);
+            EnsureInit();
+            var json = _serializerStatic.Serialize(settings);
+            _storageStatic.Save(key, json);
         }
     }
 }

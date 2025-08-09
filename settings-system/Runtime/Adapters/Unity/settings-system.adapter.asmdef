@@ -1,7 +1,0 @@
-{
-  "name": "dev.fqde.settingssystem.unityadapter",
-  "references": [
-    "dev.fqde.settingssystem.core"
-  ],
-  "autoReferenced": true
-}
